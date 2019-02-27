@@ -7,3 +7,16 @@ before_install:
 
 script:
   - docker run -it johnmutuma5/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"            # this can be found in the beanstalk app url
+  app: docker-react              # the name of the beanstalk app we chose
+  env: "DockerReact-env"         # the environment name assigned
+  bucket_name: "elasticbeanstalk-us-east-2-631657872849"                # the s3 bucket for the application. Find from s3.
+  bucket_path: "docker-react"    # all elastic beanstalk apps we create share a common bucket and each beanstalk app get's a folder in its name
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$AWS_SECRET_KEY"
